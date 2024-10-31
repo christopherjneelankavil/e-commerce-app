@@ -1,4 +1,5 @@
 # E-Commerce App
+- **In development**
 
 This is an e-commerce application built with Flutter as the frontend, and Node.js with Express and MongoDB as the backend. This app allows users to browse, search, and purchase products, and includes features such as authentication, a shopping cart, and order management.
 
