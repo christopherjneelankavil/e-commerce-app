@@ -90,10 +90,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     onSubmit: () {
                       if (_formKey.currentState!.validate()) {
-                        Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(builder: (context) {
-                          return const HomeScreen();
-                        }));
+                        Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(builder: (context) => HomeScreen()),
+                              (Route<dynamic> route) => route.settings.name == '/login',
+                        );
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(

@@ -34,7 +34,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Image.asset(
-                      'assets/images/login-app.png',
+                      'assets/images/sign-up-app.png',
                       width: MediaQuery.of(context).size.width * 0.75,
                       height: MediaQuery.of(context).size.width * 0.75,
                     ),
@@ -42,7 +42,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   SizedBox(height: height * 0.1),
                   Align(
                     alignment: Alignment.topLeft,
-                    child: Text('Login',
+                    child: Text('Sign Up',
                       style: GoogleFonts.poppins(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
@@ -58,9 +58,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     null, // No suffix icon for Username field
                     'Enter your username',
                   ),
+                  const SizedBox(height: 7),
+                  getTextFormField(
+                    'Name',
+                    IconsaxPlusBold.user,
+                    false,
+                    null, // No suffix icon for Username field
+                    'Enter your name',
+                  ),
                   const SizedBox(height: 20),
                   getTextFormField(
                     'Password',
+                    IconsaxPlusBold.lock,
+                    obscureText,
+                    suffixIcon,
+                    'Enter your password',
+                  ),
+                  const SizedBox(height: 15),
+                  getTextFormField(
+                    'Confirm Password',
                     IconsaxPlusBold.lock,
                     obscureText,
                     suffixIcon,
@@ -72,15 +88,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     outerColor: const Color(0xFF0550F1),
                     sliderRotate: false,
                     sliderButtonIcon: const Icon(
-                      IconsaxPlusBold.lock,
+                      IconsaxPlusBold.arrow_right_2,
                       color: Colors.white,
                     ),
                     submittedIcon: const Icon(
-                      IconsaxPlusBold.unlock,
+                      IconsaxPlusBold.tick_circle,
                       color: Colors.white,
                     ),
                     animationDuration: const Duration(milliseconds: 500),
-                    text: 'Slide to login',
+                    text: 'Slide to Sign Up',
                     textStyle: const TextStyle(
                       color: Colors.white,
                       fontSize: 20,
@@ -88,9 +104,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                     onSubmit: () {
                       if (_formKey.currentState!.validate()) {
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context){
-                          return const HomeScreen();
-                        }));
+                        Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(builder: (context) => HomeScreen()),
+                              (Route<dynamic> route) => route.settings.name == '/login',
+                        );
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
@@ -103,38 +120,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   const SizedBox(height: 10),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
+                      Text('Already have an account?',
+                        style: GoogleFonts.poppins(
+                          fontSize: 15,
+                          color: const Color(0xFF0550F1),
+                        ),
+                      ),
                       InkWell(
-                        onTap: () {},
-                        child: Text('Forgot password?',
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(' Login',
                           style: GoogleFonts.poppins(
                             fontSize: 16,
                             color: const Color(0xFF0550F1),
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
-                      Row(
-                        children: [
-                          Text('New user? ',
-                            style: GoogleFonts.poppins(
-                              fontSize: 15,
-                              color: const Color(0xFF0550F1),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {},
-                            child: Text('Sign up',
-                              style: GoogleFonts.poppins(
-                                fontSize: 16,
-                                color: const Color(0xFF0550F1),
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ],
-                      )
                     ],
                   )
                 ],
@@ -150,7 +155,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextFormField getTextFormField(String label, IconData prefixIcon,
       bool obscure, IconData? suffix, String hint) {
     return TextFormField(
-      obscureText: label == 'Password' ? obscureText : false,
+      obscureText: label == 'Password' || label == 'Confirm Password'? obscureText : false,
       validator: (value) {
         if (value == null || value.isEmpty) {
           return 'Please fill the required field';
@@ -165,7 +170,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           prefixIcon,
           color: const Color(0xFF0550F1),
         ),
-        suffixIcon: label == 'Password'
+        suffixIcon: label == 'Password' || label == 'Confirm Password'
             ? IconButton(
           onPressed: () {
             setState(() {
