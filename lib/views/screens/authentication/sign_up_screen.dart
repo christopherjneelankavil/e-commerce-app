@@ -39,7 +39,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       height: MediaQuery.of(context).size.width * 0.75,
                     ),
                   ),
-                  SizedBox(height: height * 0.1),
+                  SizedBox(height: height * 0.085),
                   Align(
                     alignment: Alignment.topLeft,
                     child: Text('Sign Up',
@@ -58,7 +58,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     null, // No suffix icon for Username field
                     'Enter your username',
                   ),
-                  const SizedBox(height: 7),
+                  const SizedBox(height: 15),
                   getTextFormField(
                     'Name',
                     IconsaxPlusBold.user,
@@ -66,7 +66,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     null, // No suffix icon for Username field
                     'Enter your name',
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 15),
                   getTextFormField(
                     'Password',
                     IconsaxPlusBold.lock,
@@ -105,7 +105,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     onSubmit: () {
                       if (_formKey.currentState!.validate()) {
                         Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(builder: (context) => HomeScreen()),
+                          MaterialPageRoute(builder: (context) => const HomeScreen()),
                               (Route<dynamic> route) => route.settings.name == '/login',
                         );
                       } else {
