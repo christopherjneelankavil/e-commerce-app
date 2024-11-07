@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:slide_to_act/slide_to_act.dart';
-
+import 'package:flutter/services.dart';
 import '../main/home_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -104,6 +104,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                     onSubmit: () {
                       if (_formKey.currentState!.validate()) {
+                        HapticFeedback.heavyImpact();
                         Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(builder: (context) => const HomeScreen()),
                               (Route<dynamic> route) => route.settings.name == '/login',

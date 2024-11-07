@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:slide_to_act/slide_to_act.dart';
-
+import 'package:flutter/services.dart';
 import '../main/home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -90,8 +90,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     onSubmit: () {
                       if (_formKey.currentState!.validate()) {
+                        HapticFeedback.heavyImpact();
                         Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(builder: (context) => HomeScreen()),
+                          MaterialPageRoute(builder: (context) => const HomeScreen()),
                               (Route<dynamic> route) => route.settings.name == '/login',
                         );
                       } else {
