@@ -3,7 +3,7 @@ import 'package:e_commerce_app/models/services/manage_http.dart';
 import 'package:e_commerce_app/models/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
-class AuthController {
+class AuthController { 
   Future<void> signUpUsers({ 
     required context,
     required String fullName,
