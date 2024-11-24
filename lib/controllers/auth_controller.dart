@@ -1,4 +1,4 @@
-import 'package:e_commerce_app/global_variables.dart';
+import 'package:e_commerce_app/global_variables.dart'; 
 import 'package:e_commerce_app/models/services/manage_http.dart';
 import 'package:e_commerce_app/models/user.dart';
 import 'package:flutter/cupertino.dart';
