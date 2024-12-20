@@ -1,9 +1,10 @@
+import 'package:e_commerce_app/controllers/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:slide_to_act/slide_to_act.dart';
 import 'package:flutter/services.dart';
-import '../main/home_screen.dart';
+// import '../main/home_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -14,8 +15,18 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final AuthController _authController = AuthController();
+  String email='';
+  String password='';
+  String username='';
+  String fullname='';
   bool obscureText = true;
   IconData suffixIcon = IconsaxPlusBold.eye_slash;
+
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController fullnameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +68,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     false,
                     null, // No suffix icon for Username field
                     'Enter your username',
+                    username,
                   ),
                   const SizedBox(height: 15),
                   getTextFormField(
@@ -65,6 +77,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     false,
                     null, // No suffix icon for Username field
                     'Enter your name',
+                    fullname,
+                  ),
+                  const SizedBox(height: 15),
+                  getTextFormField(
+                    'Email',
+                    IconsaxPlusBold.message,
+                    false,
+                    null, // No suffix icon for Email field
+                    'Enter your email',
+                    email,
                   ),
                   const SizedBox(height: 15),
                   getTextFormField(
@@ -73,6 +95,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     obscureText,
                     suffixIcon,
                     'Enter your password',
+                    password
                   ),
                   const SizedBox(height: 15),
                   getTextFormField(
@@ -81,6 +104,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     obscureText,
                     suffixIcon,
                     'Enter your password',
+                    password,
                   ),
                   const SizedBox(height: 15),
                   SlideAction(
@@ -102,13 +126,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
-                    onSubmit: () {
+                    onSubmit: () async {
+                      fullname = fullnameController.text;
+                      username = usernameController.text;
+                      email = emailController.text;
+                      password = passwordController.text;
+                      debugPrint('$fullname\n$username\n$email\n$password');
                       if (_formKey.currentState!.validate()) {
                         HapticFeedback.heavyImpact();
-                        Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(builder: (context) => const HomeScreen()),
-                              (Route<dynamic> route) => route.settings.name == '/login',
-                        );
+                        await _authController.signUpUsers(context: context, fullName: fullname, username: username, email: email, password: password);
+                        // Navigator.of(context).pushAndRemoveUntil(
+                        //   MaterialPageRoute(builder: (context) => const HomeScreen()),
+                        //       (Route<dynamic> route) => route.settings.name == '/login',
+
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
@@ -154,8 +184,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   // Generate text form field
   TextFormField getTextFormField(String label, IconData prefixIcon,
-      bool obscure, IconData? suffix, String hint) {
+      bool obscure, IconData? suffix, String hint, String val) {
     return TextFormField(
+      onChanged: (value) {
+        val = value;
+      },
+      controller: label == 'Username'
+          ? usernameController
+          : label == 'Name'
+          ? fullnameController
+          : label == 'Email'
+          ? emailController
+          : passwordController,
       obscureText: label == 'Password' || label == 'Confirm Password'? obscureText : false,
       validator: (value) {
         if (value == null || value.isEmpty) {
