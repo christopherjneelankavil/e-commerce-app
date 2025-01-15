@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       title: 'E-Commerce App',
 
-      debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: true,
       home: LoginScreen(),
     );
   }
